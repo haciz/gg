@@ -1,0 +1,23 @@
+---
+  - name: Deploy docker + pihole
+    hosts: raspberry-pi
+    connection: local
+    gather_facts: no
+    become: true
+
+    tasks:
+      - name: repo key install
+        apt_key:
+          url: https://download.docker.com/linux/raspbian/gpg
+          state: present
+
+      - name: docker registry is installing
+        apt_repository: repo='deb https://download.docker.com/linux/raspbian/ stretch stable' state=present
+
+      - name: ensure docker and dependecies are installed
+        apt: name=docker-ce update_cache=yes
+
+      - service: name=docker state=restarted
+
+
+
