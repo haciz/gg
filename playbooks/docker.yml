@@ -12,12 +12,17 @@
           state: present
 
       - name: docker registry is installing
-        apt_repository: repo='deb https://download.docker.com/linux/raspbian/ stretch stable' state=present
+        apt_repository: repo='deb https://download.docker.com/linux/raspbian/ buster stable'
 
-      - name: ensure docker and dependecies are installed
-        apt: name=docker-ce update_cache=yes
+      - name: install docker
+        package:
+          name: docker-ce
+          state: present
 
-      - service: name=docker state=restarted
+      - name: starting docker service
+        service:
+          name: docker
+          state: started
 
 
 
